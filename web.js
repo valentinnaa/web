@@ -1,9 +1,20 @@
 const http = require('http')
+const fs = require('fs')
 const port = 3000
+
 const server = http.createServer(function(req, res) {
- res.write('Hello world ')
- res.end()
-})
+    res.writeHead(200, { 'Content-Type': 'text/html'})
+    fs.readFile('homework.html', function(error, data){
+        if (error){
+            res.writeHead(404)
+            res.write('Error: file not found')
+        } else{
+            res.write(data)
+        }
+        res.end()
+    })
+    
+});
 server.listen(port, function(error){
     if (error) {
         console.log('something went wrong', error)
@@ -11,3 +22,4 @@ server.listen(port, function(error){
         console.log ('server is listening on port' +  port)
     }
 })
+
